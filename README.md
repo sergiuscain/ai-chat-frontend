@@ -1,4 +1,6 @@
 # Фронт для моего проекта - симуляция команты Ai Агентов.
+# Вторая часть проекта -> https://github.com/sergiuscain/AiAgentsChat
+# Скриншотики:
 Создание агента:
 <img width="2548" height="1227" alt="image" src="https://github.com/user-attachments/assets/3feaae93-f6eb-4f06-8a3e-fd442bee71e4" />
 Удаление и обновление списка агентов:
