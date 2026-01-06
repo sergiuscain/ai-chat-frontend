@@ -1,25 +1,42 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import MainLayout from './components/Layout/MainLayout';
+import AgentsList from './components/Agents/AgentsList';
+import ChatWindow from './components/Chat/ChatWindow';
+import CreateChatForm from './components/CreateChat/CreateChatForm';
+import { AppView } from './types/types';
 
 function App() {
+  const [currentView, setCurrentView] = useState<AppView>('agents');
+  const [activeChatId, setActiveChatId] = useState<string | null>(null);
+
+  const renderView = () => {
+    switch (currentView) {
+      case 'agents':
+        return <AgentsList />;
+      case 'createChat':
+        return (
+          <CreateChatForm
+            onCreateChat={(chatId: string) => {
+              setActiveChatId(chatId);
+              setCurrentView('chat');
+            }}
+          />
+        );
+      case 'chat':
+        return activeChatId ? <ChatWindow chatId={activeChatId} /> : <div>Чат не выбран</div>;
+      default:
+        return <AgentsList />;
+    }
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <MainLayout
+      currentView={currentView}
+      onChangeView={setCurrentView}
+      chatId={activeChatId}
+    >
+      {renderView()}
+    </MainLayout>
   );
 }
 
