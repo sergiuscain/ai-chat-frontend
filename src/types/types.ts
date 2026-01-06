@@ -20,5 +20,10 @@ export interface SendMessageRequest {
 export interface CreateChatResponse {
   chatId: string;
 }
+export interface ApiResponse {
+  success: boolean;
+  message: string;
+  data?: any;
+}
 
-export type AppView = 'agents' | 'createChat' | 'chat';
+export type AppView = 'agents' | 'createChat' | 'chat' | 'chatsList' | 'createAgent';

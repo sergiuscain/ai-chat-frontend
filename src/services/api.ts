@@ -1,6 +1,37 @@
-import { ChatMessageVM, CreateChatRequest, CreateChatResponse, SendMessageRequest } from '../types/types';
+import { ChatMessageVM, CreateChatRequest, CreateChatResponse, SendMessageRequest, ApiResponse } from '../types/types';
 
 const API_BASE_URL = 'https://localhost:7015/api/Ai';
+
+export const createAgent = async (agentName: string): Promise<ApiResponse> => {
+  const response = await fetch(`${API_BASE_URL}/CreateAiAgent?AiAgentName=${encodeURIComponent(agentName)}`, {
+    method: 'POST'
+  });
+  
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(`Ошибка создания агента: ${response.status} ${errorText}`);
+  }
+  
+  const data = await response.json();
+  return {
+    success: true,
+    message: data ? `Агент ${agentName} создан` : 'Ошибка создания агента',
+    data
+  };
+};
+
+export const deleteAgent = async (agentName: string): Promise<ApiResponse> => {
+  const response = await fetch(`${API_BASE_URL}/DeleteAgent?agentName=${encodeURIComponent(agentName)}`, {
+    method: 'DELETE'
+  });
+  
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(`Ошибка удаления агента: ${response.status} ${errorText}`);
+  }
+  
+  return await response.json();
+};
 
 export const getAgents = async (): Promise<string[]> => {
   const response = await fetch(`${API_BASE_URL}/GetAllAgentsName`);
